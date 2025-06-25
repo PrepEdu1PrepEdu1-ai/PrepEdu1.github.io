@@ -3,79 +3,173 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Private Access</title>
+  <title>School Login</title>
   <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #f0f0f0;
+      background: linear-gradient(to right, #4361ee, #4cc9f0);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
     }
-    #loginBox {
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-    input[type="password"] {
-      padding: 10px;
+
+    .login-container {
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
       width: 100%;
-      margin-top: 10px;
-      margin-bottom: 20px;
+      max-width: 450px;
     }
+
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #222;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+      display: none;
+      margin-top: 5px;
+    }
+
     button {
-      padding: 10px 20px;
-      background: #007BFF;
+      width: 100%;
+      background: #4361ee;
       color: white;
       border: none;
-      border-radius: 5px;
+      padding: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
     }
-    #error {
-      color: red;
+
+    button:hover {
+      background: #3a56d4;
+    }
+
+    .footer-note {
       margin-top: 10px;
+      font-size: 14px;
+      text-align: center;
+      color: #777;
     }
   </style>
 </head>
 <body>
-  <div id="loginBox">
-    <h2>Private Website Login</h2>
-    <p>This site is for Telegram group members only</p>
-    <input type="password" id="password" placeholder="Enter group password" />
-    <button onclick="checkPassword()">Login</button>
-    <div id="error"></div>
+
+  <div class="login-container">
+    <h2>School Login</h2>
+    
+    <div class="form-group">
+      <label for="fname">First Name</label>
+      <input type="text" id="fname" placeholder="Enter your first name" required />
+    </div>
+
+    <div class="form-group">
+      <label for="lname">Last Name</label>
+      <input type="text" id="lname" placeholder="Enter your last name" required />
+    </div>
+
+    <div class="form-group">
+      <label for="city">City</label>
+      <input type="text" id="city" placeholder="Enter your city" required />
+    </div>
+
+    <div class="form-group">
+      <label for="school">School Name</label>
+      <input type="text" id="school" placeholder="Enter your school name" required />
+    </div>
+
+    <div class="form-group">
+      <label for="role">Role</label>
+      <select id="role" required>
+        <option value="" disabled selected>Select your role</option>
+        <option value="student">Student</option>
+        <option value="teacher">Teacher</option>
+        <option value="admin">Admin</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="id">ID</label>
+      <input type="text" id="id" placeholder="Enter your school ID" required />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter password" required />
+    </div>
+
+    <div class="form-group">
+      <label for="confirm">Confirm Password</label>
+      <input type="password" id="confirm" placeholder="Confirm password" required />
+      <div class="error" id="password-error">Passwords do not match.</div>
+    </div>
+
+    <div class="error" id="login-error">Incorrect Password. Please communicate with your school officer.</div>
+
+    <button onclick="validateLogin()">Log In</button>
+
+    <div class="footer-note">
+      Your data is safe and secure.
+    </div>
   </div>
 
   <script>
-    const CORRECT_PASSWORD = "prep2025";
+    function validateLogin() {
+      const password = document.getElementById("password").value;
+      const confirm = document.getElementById("confirm").value;
+      const passwordError = document.getElementById("password-error");
+      const loginError = document.getElementById("login-error");
 
-    // Check if already logged in
-    if (localStorage.getItem("loggedIn") === "true") {
-      window.location.href = "home.html";
-    }
+      // Reset errors
+      passwordError.style.display = "none";
+      loginError.style.display = "none";
 
-    function checkPassword() {
-      const entered = document.getElementById("password").value;
-      if (entered === CORRECT_PASSWORD) {
-        localStorage.setItem("loggedIn", "true");
-        window.location.href = "home.html";
-      } else {
-        document.getElementById("error").innerText = "Incorrect password";
+      // Check password match
+      if (password !== confirm) {
+        passwordError.style.display = "block";
+        return;
       }
+
+      // Simulated password check
+      if (password !== "1234") {
+        loginError.style.display = "block";
+        return;
+      }
+
+      alert("Login successful!"); // Replace this with your real login process
     }
   </script>
-<script>
-// Disable right-click
-document.addEventListener('contextmenu', function(e) {
-  e.preventDefault();
-});
 
-// Disable text selection
-document.addEventListener('selectstart', function(e) {
-  e.preventDefault();
-});
-</script>
 </body>
-</html>
+    </html>
